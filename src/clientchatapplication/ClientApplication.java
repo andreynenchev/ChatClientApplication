@@ -101,9 +101,9 @@ public class ClientApplication extends javax.swing.JFrame {
                 for (int i=0; i< selectedClients.length; i++){
                     clientsOutput.get(selectedClients[i]).println(jTextInput.getText());
                 }
-                jTextInput.setText("");
+                
             }
-
+            jTextInput.setText("");
         }
 
         //if (evt.getKeyCode() == )
@@ -166,22 +166,18 @@ public class ClientApplication extends javax.swing.JFrame {
             System.err.println(e);
             System.exit(1);
         }
-        stdIn = new BufferedReader(new InputStreamReader(System.in));
         PrintWriter out = new PrintWriter(server.getOutputStream(), true);
         Thread t = new Thread(new ServerConn(server));
         t.start();
- 
-        String msg="Client Conected!";
-        do{
-            out.println(msg);
-        }
-        while ((msg = stdIn.readLine()) != null && !msg.equals("TERMINATE") && !TERMINATE_CLIENT );
-        t.interrupt();
-        
-        
     }
+    
+    public void printMsgOnScreen(String msg){
+        jTextOutput.setText(jTextOutput.getText() + msg + "\r\n");
+    }
+    
     public static void exitApp(){
         TERMINATE_CLIENT = true;
+        System.exit(0);
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;

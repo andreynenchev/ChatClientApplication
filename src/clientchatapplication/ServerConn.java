@@ -25,15 +25,23 @@ class ServerConn implements Runnable {
         String msg;
         try {
             while ((msg = in.readLine()) != null && !msg.equals("TERMINATE")) {
-                System.out.println("Server: " + msg);
+                if (msg.startsWith("<<SERVER_ADD_CLIENT>>")){
+                    
+                }
+                else{
+                    ClientApplication.clientApp.printMsgOnScreen("Server:" + msg);
+                    //System.out.println("Server: " + msg);
+                }
             }
             //EXIT!!!!!!!!!!!!
-            System.out.println("Terminating.....");
+            //System.out.println("Terminating.....");
+            ClientApplication.clientApp.printMsgOnScreen("Terminating.....");
             ClientApplication.exitApp();
             Thread.currentThread().interrupt();
-            System.exit(0);
+            //System.exit(0);
         } catch (IOException e) {
-            System.err.println(e);
+            //System.err.println(e);
+            ClientApplication.clientApp.printMsgOnScreen("SERVERCONN Exception" + e.getMessage());
         }
     }
 }
