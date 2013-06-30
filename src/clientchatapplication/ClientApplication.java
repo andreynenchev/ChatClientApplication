@@ -91,16 +91,18 @@ public class ClientApplication extends javax.swing.JFrame {
         // TODO add your handling code here:
         //jTextOutput.setText(evt.getKeyCode() + "  " + evt.getKeyChar());
         if (evt.getKeyCode() == 10) {//Enter
-            jTextOutput.setText(jTextOutput.getText() + jTextInput.getText() + "\r\n");
+            jTextOutput.append(jTextInput.getText() + "\r\n");
             if (jTextInput.getText().equalsIgnoreCase("cls")) {
                 jTextOutput.setText("");
             }
             else{
                 String[] selectedClients = listClients.getSelectedItems();
-                //out = new PrintWriter(it.next().getOutputStream(), true);
-                for (int i=0; i< selectedClients.length; i++){
-                    clientsOutput.get(selectedClients[i]).println(jTextInput.getText());
+                for (int i=0; i<selectedClients.length;i++){
+                    out.println("<<" + selectedClients[i] + ">>" + jTextInput.getText());
                 }
+                out.println("COUNTING" + selectedClients.length);
+                out.println(jTextInput.getText());
+                
                 
             }
             jTextInput.setText("");
@@ -116,7 +118,8 @@ public class ClientApplication extends javax.swing.JFrame {
     
     private static int port = 4444;//2001; /* port to connect to */
     private static String host = "localhost"; /* host to connect to */
-    
+    private static Socket server = null;
+    private static PrintWriter out;
     private static boolean TERMINATE_CLIENT = false;
     
     
@@ -159,21 +162,36 @@ public class ClientApplication extends javax.swing.JFrame {
                 
             }
         });
-        Socket server = null;
+        
         try {
             server = new Socket(host, port);
         } catch (UnknownHostException e) {
             System.err.println(e);
             System.exit(1);
         }
-        PrintWriter out = new PrintWriter(server.getOutputStream(), true);
+        out = new PrintWriter(server.getOutputStream(), true);
+        
         Thread t = new Thread(new ServerConn(server));
         t.start();
+        //out.println("<<REFRESH>>");
+        
+        
+        
     }
     
     public void printMsgOnScreen(String msg){
         jTextOutput.setText(jTextOutput.getText() + msg + "\r\n");
     }
+    
+    public void addClientToList(String name){
+        listClients.add(name);
+    }
+    
+    public void remClientFromList(String name){
+        listClients.remove(name);
+    }
+    
+    
     
     public static void exitApp(){
         TERMINATE_CLIENT = true;
