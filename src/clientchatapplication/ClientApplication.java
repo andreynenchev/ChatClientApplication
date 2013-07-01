@@ -40,6 +40,7 @@ public class ClientApplication extends javax.swing.JFrame {
         jTextInput = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextOutput = new javax.swing.JTextArea();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Client Chat");
@@ -56,6 +57,13 @@ public class ClientApplication extends javax.swing.JFrame {
         jTextOutput.setRows(5);
         jScrollPane1.setViewportView(jTextOutput);
 
+        jButton1.setText("Refresh Client List");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -67,8 +75,10 @@ public class ClientApplication extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jTextInput, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 369, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -77,9 +87,11 @@ public class ClientApplication extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jTextInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(5, 5, 5)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 234, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jTextInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton1))
+                        .addGap(3, 3, 3)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE))
                     .addComponent(listClients, javax.swing.GroupLayout.DEFAULT_SIZE, 259, Short.MAX_VALUE))
                 .addGap(30, 30, 30))
         );
@@ -98,9 +110,9 @@ public class ClientApplication extends javax.swing.JFrame {
             else{
                 String[] selectedClients = listClients.getSelectedItems();
                 for (int i=0; i<selectedClients.length;i++){
-                    out.println("<<" + selectedClients[i] + ">>" + jTextInput.getText());
+                    out.println("<<SENDTO>>" + selectedClients[i] + jTextInput.getText());
                 }
-                out.println("COUNTING" + selectedClients.length);
+                //out.println("COUNTING" + selectedClients.length);
                 out.println(jTextInput.getText());
                 
                 
@@ -110,6 +122,12 @@ public class ClientApplication extends javax.swing.JFrame {
 
         //if (evt.getKeyCode() == )
     }//GEN-LAST:event_jTextInputKeyReleased
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        listClients.removeAll();
+        out.println("<<REFRESH>>");
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     
     private static BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
@@ -173,7 +191,7 @@ public class ClientApplication extends javax.swing.JFrame {
         
         Thread t = new Thread(new ServerConn(server));
         t.start();
-        //out.println("<<REFRESH>>");
+        //out.println("<<ONLINE>>");
         
         
         
@@ -198,6 +216,7 @@ public class ClientApplication extends javax.swing.JFrame {
         System.exit(0);
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextInput;
     private javax.swing.JTextArea jTextOutput;
